@@ -1,0 +1,24 @@
+# Byte-compiled / arquivos de cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Arquivos de ambiente e SO
+.env
+.env.*
+.DS_Store
+Thumbs.db
+
+# TaskFlow (projeto em subpastas mantido fora deste repositório)
+backend/
+frontend/
+package.json
+package-lock.json
+node_modules/
+dist/
+enviar_para_github.bat

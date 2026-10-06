@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sistema simples e moderno de verificação e agendamento de horários para barbearia.">
+  <title>Barbearia Navalha & Estilo - Agendamento de Horários</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Cabeçalho -->
+    <header class="header">
+      <div class="brand">
+        <div class="barber-pole" aria-hidden="true"></div>
+        <div>
+          <h1 class="logo-title">BARBEARIA NAVALHA &amp; ESTILO</h1>
+          <p class="logo-subtitle">Sistema de Controle &amp; Verificação de Horários</p>
+        </div>
+      </div>
+      <div class="status-pill">
+        <span class="pulse-dot"></span> Sistema Ativo
+      </div>
+    </header>
+
+    <!-- Indicadores de Resumo -->
+    <section class="metrics-grid" aria-label="Resumo dos horários">
+      <div class="metric-card">
+        <span class="metric-label">Horários Ocupados</span>
+        <span class="metric-value text-danger" id="count-ocupados">3</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Horários Livres</span>
+        <span class="metric-value text-success" id="count-disponiveis">7</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Total de Vagas</span>
+        <span class="metric-value" id="count-total">10</span>
+      </div>
+    </section>
+
+    <!-- Conteúdo Principal em 2 Colunas -->
+    <main class="main-content">
+      
+      <!-- Coluna da Esquerda: Testador & Formulário -->
+      <section class="card control-card">
+        <div class="card-header">
+          <span class="badge-tag">Consulta Rápida</span>
+          <h2>Verificar Disponibilidade</h2>
+          <p class="card-desc">Digite um horário ou clique em um dos cartões ao lado para testar a função <code>horario_disponivel</code>.</p>
+        </div>
+
+        <form id="form-consulta" class="consult-form" onsubmit="event.preventDefault();">
+          <label for="input-horario" class="form-label">Horário desejado (HH:MM)</label>
+          <div class="input-group">
+            <input 
+              type="text" 
+              id="input-horario" 
+              name="horario" 
+              placeholder="Ex: 15:00" 
+              pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+              value="15:00"
+              autocomplete="off"
+              required
+            >
+            <button type="button" id="btn-verificar" class="btn btn-primary">
+              <span class="btn-icon">🔍</span> Verificar
+            </button>
+          </div>
+          <span class="input-hint">Dica: Horários padrão funcionam no formato de 24 horas (ex: 10:00, 14:00, 15:00).</span>
+
+          <!-- Feedback Visual do Resultado -->
+          <div id="resultado-box" class="result-box result-success" role="alert">
+            <div class="result-icon-wrapper" id="result-icon">✅</div>
+            <div class="result-details">
+              <h3 class="result-title" id="result-status">Horário Disponível!</h3>
+              <p class="result-text" id="result-msg">O horário <strong>15:00</strong> está livre e pronto para receber agendamento.</p>
+              <div class="result-meta" id="result-code-explain">
+                <code>horario_disponivel("15:00", ocupados) == True</code>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ações de Agendamento -->
+          <div class="action-buttons">
+            <button type="button" id="btn-agendar" class="btn btn-action">
+              <span>📅</span> Agendar Este Horário
+            </button>
+            <button type="button" id="btn-reset" class="btn btn-outline" title="Volta para os horários iniciais da aula: 10:00, 11:00 e 14:00">
+              <span>🔄</span> Restaurar Exemplo Original
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Coluna da Direita: Grade Visual de Horários -->
+      <section class="card slots-card">
+        <div class="card-header flex-header">
+          <div>
+            <span class="badge-tag">Grade do Dia</span>
+            <h2>Horários de Hoje</h2>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-dot dot-free"></span> Livre</span>
+            <span class="legend-item"><span class="legend-dot dot-busy"></span> Ocupado</span>
+          </div>
+        </div>
+
+        <p class="card-desc">Clique em qualquer horário para selecioná-lo e testar sua disponibilidade:</p>
+
+        <div class="slots-grid" id="slots-container">
+          <!-- Gerado dinamicamente pelo script.js -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Seção Didática: Conexão do Python com o JavaScript -->
+    <section class="card didactic-card">
+      <div class="card-header">
+        <span class="badge-tag">Para o Aluno de TI</span>
+        <h2>Como a Lógica Funciona por Trás dos Panos</h2>
+        <p class="card-desc">Compare o código que fizemos em Python com a implementação em JavaScript executada neste site:</p>
+      </div>
+
+      <div class="code-compare-grid">
+        <div class="code-panel">
+          <div class="code-panel-title">
+            <span class="lang-tag">Python (agendamento.py)</span>
+          </div>
+          <pre><code>def horario_disponivel(horario, horarios_ocupados):
+    # Retorna True se NÃO estiver na lista
+    return horario not in horarios_ocupados</code></pre>
+        </div>
+
+        <div class="code-panel">
+          <div class="code-panel-title">
+            <span class="lang-tag">JavaScript (Navegador)</span>
+          </div>
+          <pre><code>function horarioDisponivel(horario, horariosOcupados) {
+    // Retorna true se a lista NÃO incluir o horário
+    return !horariosOcupados.includes(horario);
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+      <p>Projeto Didático Barbearia • Desenvolvido para aprendizado de lógica e testes</p>
+      <p class="footer-sub">Regra fundamental: evitar agendamentos duplos para o mesmo horário.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
